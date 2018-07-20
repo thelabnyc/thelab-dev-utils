@@ -30,11 +30,12 @@ services:
 ```
 
 Notes about this configuration:
-    - The `HOME` environment variable is injected so that it matches your workstation.
-    - AWS credentials are injected so that the AWS CLI tools (pre-installed in the image) work just like they would locally.
-    - The docker socket is mounted so that you can control the host's docker daemon from within the container. The docker client is pre-installed in the image.
-    - The user's home directory is mounted as a volume so that all the user's file's are accessible in the container.
-    - The working directory is set to the current working directory of the user at the time of starting the container. This means that relative paths are the same inside and outside of the container.
+
+- The `HOME` environment variable is injected so that it matches your workstation.
+- AWS credentials are injected so that the AWS CLI tools (pre-installed in the image) work just like they would locally.
+- The docker socket is mounted so that you can control the host's docker daemon from within the container. The docker client is pre-installed in the image.
+- The user's home directory is mounted as a volume so that all the user's file's are accessible in the container.
+- The working directory is set to the current working directory of the user at the time of starting the container. This means that relative paths are the same inside and outside of the container.
 
 Now that the image is added to your `docker-compose` configuration, a scirpt you used to run like this:
 
