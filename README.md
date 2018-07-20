@@ -1,6 +1,6 @@
-# tsi-dev-utils
+# thelab-dev-utils
 
-This repository containers a build process and Dockerfile for a docker image which contains commonly needed developer utilities. It is intended to be used when running some scripts and processes in other TSI projects, such as the Dev/Staging -> Local DB restore script. Running scripts inside this container instead of directly on the Dev's workstation reduces the needs of what must be installed on the workstation and reduces problems issues caused by disparate versions of utilities.
+This repository containers a build process and Dockerfile for a docker image which contains commonly needed developer utilities. It is intended to be used when running some scripts and processes in other projects, such as the Dev/Staging -> Local DB restore script. Running scripts inside this container instead of directly on the Dev's workstation reduces the needs of what must be installed on the workstation and reduces problems issues caused by disparate versions of utilities.
 
 ## Usage
 
@@ -13,7 +13,7 @@ services:
    # Other services go here...
 
   devutils:
-    image: registry.gitlab.com/thelabnyc/tsi-dev-utils:latest
+    image: registry.gitlab.com/thelabnyc/thelab-dev-utils:latest
     environment:
       HOME: "${HOME}"
       AWS_VAULT: "${AWS_VAULT:-}"
