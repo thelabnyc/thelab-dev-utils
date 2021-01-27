@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION=18.04
+ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
 
 # Install Python
@@ -12,7 +12,7 @@ RUN echo "${TIMEZONE}" > /etc/timezone && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq tzdata
 
 # Install PostgreSQL client
-ENV POSTGRES_VERSION "10"
+ENV POSTGRES_VERSION "12"
 RUN apt-get install -y software-properties-common && \
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" && \
@@ -27,7 +27,7 @@ RUN apt-get update && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     apt-get update && \
     apt-get install -y docker-ce && \
-    pip3 install docker-compose
+    pip3 install 'docker-compose==1.27.0'
 
 # Install other misc utils
 RUN apt-get install -y dialog unzip jq && \

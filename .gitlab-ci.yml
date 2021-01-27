@@ -3,7 +3,7 @@ stages:
 
 
 variables:
-  UBUNTU_VERSION: '18.04'
+  UBUNTU_VERSION: '20.04'
 
 
 build_docker_image:
