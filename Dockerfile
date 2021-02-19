@@ -27,7 +27,7 @@ RUN apt-get update && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     apt-get update && \
     apt-get install -y docker-ce && \
-    pip3 install 'docker-compose==1.27.0'
+    pip3 install 'docker-compose==1.28.4'
 
 # Install other misc utils
 RUN apt-get install -y dialog unzip jq && \
