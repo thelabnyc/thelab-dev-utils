@@ -1,19 +1,30 @@
 stages:
   - build
 
-
 variables:
   UBUNTU_VERSION: '20.04'
+  PLATFORMS: "linux/arm64/v8,linux/amd64"
 
-
-build_docker_image:
+build:
   stage: build
   image: docker:latest
-  only:
-    - master
+  services:
+    - docker:dind
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
     - docker pull "$CI_REGISTRY_IMAGE:latest"
     - docker pull "ubuntu:${UBUNTU_VERSION}"
-    - docker build --build-arg UBUNTU_VERSION=$UBUNTU_VERSION -t "$CI_REGISTRY_IMAGE:latest" .
-    - docker push "$CI_REGISTRY_IMAGE:latest"
+
+    # Create a buildx instance if one doesn't already exist
+    - if [ "$(docker buildx ls | grep docker-container  | wc -l)" -le "0" ]; then
+        docker buildx create --use;
+      fi
+
+    - docker buildx build
+        --platform "$PLATFORMS"
+        --pull
+        --build-arg UBUNTU_VERSION=$UBUNTU_VERSION
+        --cache-from "$CI_REGISTRY_IMAGE:latest"
+        --tag "$CI_REGISTRY_IMAGE:latest"
+        --push
+        .
