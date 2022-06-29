@@ -15,6 +15,10 @@ build:
     - docker pull "$CI_REGISTRY_IMAGE:latest"
     - docker pull "ubuntu:${UBUNTU_VERSION}"
 
+    # Install QEMU emulation support in the kernel
+    # See: https://docs.docker.com/buildx/working-with-buildx/#build-multi-platform-images
+    - docker run --privileged --rm tonistiigi/binfmt --install all
+
     # Create a buildx instance if one doesn't already exist
     - if [ "$(docker buildx ls | grep docker-container  | wc -l)" -le "0" ]; then
         docker buildx create --use;
