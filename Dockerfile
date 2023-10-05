@@ -3,7 +3,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 
 ARG TIMEZONE="America/New_York"
 
-# IKnstall Python and misc utils
+# Install Python and misc utils
 RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "${TIMEZONE}" > /etc/timezone && \
     apt-get update && \
