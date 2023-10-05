@@ -29,7 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     unset DEBIAN_FRONTEND
 
 # Install PostgreSQL client
-ENV POSTGRES_VERSION "14"
+ENV POSTGRES_VERSION "15"
 RUN export DEBIAN_FRONTEND=noninteractive && \
     mkdir -p /etc/apt/keyrings  && \
     curl -fsSL "https://www.postgresql.org/media/keys/ACCC4CF8.asc" | gpg --dearmor -o "/etc/apt/keyrings/postgres.gpg" && \
