@@ -53,9 +53,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         docker-ce-cli \
         docker-compose-plugin \
     && \
-    pip3 install \
-        'docker-compose>=1.28.4,<2.0' \
-    && \
     rm -rf /var/lib/apt/lists/* && \
     unset DEBIAN_FRONTEND
 
