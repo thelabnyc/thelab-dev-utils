@@ -7,7 +7,6 @@ This repository containers a build process and Dockerfile for a docker image whi
 First, include this image in another project's docker-compose file, have it mount the user's home directory and docker socket.
 
 ```yaml
-version: '3.8'
 services:
 
    # Other services go here...
