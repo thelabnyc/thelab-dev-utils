@@ -2,7 +2,7 @@ stages:
   - build
 
 variables:
-  UBUNTU_VERSION: '22.04'
+  UBUNTU_VERSION: '24.04'
   PLATFORMS: "linux/arm64/v8,linux/amd64"
 
 build:
