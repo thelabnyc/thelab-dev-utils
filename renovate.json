@@ -5,7 +5,7 @@
     {
       "customType": "regex",
       "fileMatch": ["\\.gitlab-ci\\.yml$"],
-      "matchStrings": ["UBUNTU_VERSION: \"(?<currentValue>[^\\s@]+)(@(?<currentDigest>sha256:[0-9a-f]+))?\""],
+      "matchStrings": ["BASE_IMAGE_TAG: \"(?<currentValue>[^\\s@]+)(@(?<currentDigest>sha256:[0-9a-f]+))?\""],
       "datasourceTemplate": "docker",
       "packageNameTemplate": "ubuntu",
       "versioningTemplate": "docker"
