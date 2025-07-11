@@ -2,8 +2,8 @@ stages:
   - build
 
 variables:
-  BASE_IMAGE_TAG: "22.04@sha256:3c61d3759c2639d4b836d32a2d3c83fa0214e36f195a3421018dbaaf79cbe37f"
-  UBUNTU_VERSION: "22.04"
+  BASE_IMAGE_TAG: "24.04@sha256:440dcf6a5640b2ae5c77724e68787a906afb8ddee98bf86db94eea8528c2c076"
+  UBUNTU_VERSION: "24.04"
   PLATFORMS: "linux/arm64/v8,linux/amd64"
 
 build:
@@ -32,16 +32,16 @@ build:
 
     # Create a buildx instance if one doesn't already exist
     - if [ "$(docker buildx ls | grep docker-container  | wc -l)" -le "0" ]; then
-        docker context create buildx-build;
-        docker buildx create --use buildx-build;
+      docker context create buildx-build;
+      docker buildx create --use buildx-build;
       fi
 
     - docker buildx build
-        --platform "$PLATFORMS"
-        --pull
-        --build-arg BASE_IMAGE_TAG=$BASE_IMAGE_TAG
-        --cache-from "$CI_REGISTRY_IMAGE:latest"
-        --tag "$CI_REGISTRY_IMAGE:${UBUNTU_VERSION}.${CI_PIPELINE_IID}${TAG_SUFFIX}"
-        --tag "$CI_REGISTRY_IMAGE:latest${TAG_SUFFIX}"
-        --push
-        .
+      --platform "$PLATFORMS"
+      --pull
+      --build-arg BASE_IMAGE_TAG=$BASE_IMAGE_TAG
+      --cache-from "$CI_REGISTRY_IMAGE:latest"
+      --tag "$CI_REGISTRY_IMAGE:${UBUNTU_VERSION}.${CI_PIPELINE_IID}${TAG_SUFFIX}"
+      --tag "$CI_REGISTRY_IMAGE:latest${TAG_SUFFIX}"
+      --push
+      .
