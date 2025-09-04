@@ -28,6 +28,9 @@ RUN /opt/install-postgres.sh
 COPY ./bin/install-docker.sh /opt/
 RUN /opt/install-docker.sh
 
+# Install greenmask
+COPY --from=greenmask/greenmask:latest@sha256:a427ac47280188299975a664b73896d4937f098e964686a60cd9c43b6b93a8b9 /usr/bin/greenmask /usr/bin/
+
 # Create working directory
 RUN mkdir -p /code
 WORKDIR /code
