@@ -5,6 +5,7 @@ variables:
   BASE_IMAGE_TAG: "24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252"
   UBUNTU_VERSION: "24.04"
   PLATFORMS: "linux/arm64/v8,linux/amd64"
+  FF_NETWORK_PER_BUILD: "true"
 
 build:
   stage: build
