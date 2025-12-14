@@ -29,7 +29,7 @@ COPY ./bin/install-docker.sh /opt/
 RUN /opt/install-docker.sh
 
 # Install greenmask
-COPY --from=greenmask/greenmask:latest@sha256:4011ab4e001a6202d2a683cadd8497821fe1b89a292e9892b8e2babebe9b81a3 /usr/bin/greenmask /usr/bin/
+COPY --from=greenmask/greenmask:latest@sha256:53c7c3c40c8e383b2b778887dc9b2f40bbdd479fe86da077ec36feaa5c1f0670 /usr/bin/greenmask /usr/bin/
 
 # Create working directory
 RUN mkdir -p /code
