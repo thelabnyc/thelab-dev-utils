@@ -1,18 +1,13 @@
 stages:
   - build
+  - manifest
 
 variables:
   BASE_IMAGE_TAG: "24.04@sha256:d1e2e92c075e5ca139d51a140fff46f84315c0fdce203eab2807c7e495eff4f9"
   UBUNTU_VERSION: "24.04"
-  PLATFORMS: "linux/arm64/v8,linux/amd64"
   FF_NETWORK_PER_BUILD: "true"
 
-build:
-  stage: build
-  image: docker:latest@sha256:8bcbad4b45f0bff9d3e809d85a7ac589390f0be8acbc526850c998c35c1243fd
-  services:
-    - docker:dind@sha256:8bcbad4b45f0bff9d3e809d85a7ac589390f0be8acbc526850c998c35c1243fd
-
+.base_job: &base_job
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       variables:
@@ -22,27 +17,34 @@ build:
       variables:
         TAG_SUFFIX: ""
 
+build:
+  <<: *base_job
+  stage: build
+  image: docker:latest@sha256:8bcbad4b45f0bff9d3e809d85a7ac589390f0be8acbc526850c998c35c1243fd
+  tags:
+    - $RUNNER_TAG
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
-    - docker pull "$CI_REGISTRY_IMAGE:latest"
-    - docker pull "ubuntu:${BASE_IMAGE_TAG}"
-
-    # Install QEMU emulation support in the kernel
-    # See: https://docs.docker.com/buildx/working-with-buildx/#build-multi-platform-images
-    - docker run --privileged --rm tonistiigi/binfmt --install all
-
-    # Create a buildx instance if one doesn't already exist
-    - if [ "$(docker buildx ls | grep docker-container  | wc -l)" -le "0" ]; then
-      docker context create buildx-build;
-      docker buildx create --use buildx-build;
+    - apk add bash
+    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]; then
+      docker login -u "${CI_REGISTRY_USER}" -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}";
       fi
+    - ./bin/build.sh
+  parallel:
+    matrix:
+      - ARCH: amd64
+        RUNNER_TAG: thelab-amd64
+      - ARCH: arm64
+        RUNNER_TAG: thelab-arm64
 
-    - docker buildx build
-      --platform "$PLATFORMS"
-      --pull
-      --build-arg BASE_IMAGE_TAG=$BASE_IMAGE_TAG
-      --cache-from "$CI_REGISTRY_IMAGE:latest"
-      --tag "$CI_REGISTRY_IMAGE:${UBUNTU_VERSION}.${CI_PIPELINE_IID}${TAG_SUFFIX}"
-      --tag "$CI_REGISTRY_IMAGE:latest${TAG_SUFFIX}"
-      --push
-      .
+manifest:
+  stage: manifest
+  needs: [build]
+  image: docker:latest@sha256:8bcbad4b45f0bff9d3e809d85a7ac589390f0be8acbc526850c998c35c1243fd
+  tags:
+    - thelab-amd64
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_REF_PROTECTED == "true"
+  script:
+    - apk add bash
+    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
+    - ./bin/push-manifest.sh
