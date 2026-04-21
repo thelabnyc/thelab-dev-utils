@@ -20,7 +20,7 @@ variables:
 build:
   <<: *base_job
   stage: build
-  image: docker:latest@sha256:a6dd5322747a95cd8e3207bd8d415a8fd20ec34e9c00f06dc019cbd912013489
+  image: docker:latest@sha256:c77e5d7912f9b137cc67051fdc2991d8f5ae22c55ddf532bb836dcb693a04940
   tags:
     - $RUNNER_TAG
   script:
@@ -39,7 +39,7 @@ build:
 manifest:
   stage: manifest
   needs: [build]
-  image: docker:latest@sha256:a6dd5322747a95cd8e3207bd8d415a8fd20ec34e9c00f06dc019cbd912013489
+  image: docker:latest@sha256:c77e5d7912f9b137cc67051fdc2991d8f5ae22c55ddf532bb836dcb693a04940
   tags:
     - thelab-amd64
   rules:
