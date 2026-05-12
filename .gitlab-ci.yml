@@ -1,4 +1,5 @@
 stages:
+  - test
   - build
   - manifest
 
@@ -17,9 +18,13 @@ variables:
       variables:
         TAG_SUFFIX: ""
 
+include:
+  - component: gitlab.com/thelabnyc/thelab-ci-components/review@0.8.4
+
 build:
   <<: *base_job
   stage: build
+  needs: []
   image: docker:latest@sha256:685b91dca8eab7de1dce1c303dbb7a763e4082d6a60db10968adf3295fbd2495
   tags:
     - $RUNNER_TAG
