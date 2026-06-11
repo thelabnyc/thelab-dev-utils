@@ -19,7 +19,7 @@ variables:
         TAG_SUFFIX: ""
 
 include:
-  - component: gitlab.com/thelabnyc/thelab-ci-components/review@0.8.4
+  - component: gitlab.com/thelabnyc/thelab-ci-components/review@0.9.0
 
 build:
   <<: *base_job
