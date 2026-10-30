@@ -20,7 +20,7 @@ COPY ./bin/install-awscli.sh /opt/
 RUN /opt/install-awscli.sh
 
 # Install PostgreSQL client
-ARG POSTGRES_VERSION="17"
+ARG POSTGRES_VERSION="18"
 COPY ./bin/install-postgres.sh /opt/
 RUN /opt/install-postgres.sh
 
