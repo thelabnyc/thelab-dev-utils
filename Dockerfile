@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
 # Install Python and misc utils
-ARG PYTHON_VERSION="3.13"
+ARG PYTHON_VERSION="3.14"
 ENV PYTHON_VERSION=${PYTHON_VERSION}
 COPY ./bin/install-python.sh /opt/
 RUN /opt/install-python.sh
